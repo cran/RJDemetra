@@ -58,8 +58,8 @@ load_workspace <- function(file){
 #' @family functions to get informations from a workspace, multiprocessing or sa_item
 #'
 #' @examples\donttest{
-#' 
-#' sa_x13 <- x13_def(ipi_c_eu[, "FR"], spec = "RSA5c")
+#'
+#' sa_x13 <- x13(ipi_c_eu[, "FR"], spec = "RSA5c")
 #'
 #' wk <- new_workspace()
 #' mp <- new_multiprocessing(wk, "sa1")
@@ -126,9 +126,9 @@ get_all_objects.workspace <- function(x){
 #' @family functions to get informations from a workspace, multiprocessing or sa_item
 #'
 #' @examples \donttest{
-#' spec_x13 <- x13_spec_def(spec = "RSA5c", easter.enabled = FALSE)
+#' spec_x13 <- x13_spec(spec = "RSA5c", easter.enabled = FALSE)
 #' sa_x13 <- x13(ipi_c_eu[, "FR"], spec = spec_x13)
-#' spec_ts <- tramoseats_spec_def(spec = "RSA5")
+#' spec_ts <- tramoseats_spec(spec = "RSA5")
 #' sa_ts <- tramoseats(ipi_c_eu[, "FR"], spec = spec_ts)
 #'
 #' wk <- new_workspace()
@@ -187,7 +187,7 @@ get_name.sa_item <- function(x){
 #' mp <- new_multiprocessing(wk, "sa1")
 #' count(wk) # 1 multiprocessing inside the workspace wk
 #' count(mp) # 0 sa_item inside the multiprocessing mp
-#' 
+#'
 #'
 #' @export
 count <- function(x){
@@ -220,16 +220,16 @@ count.workspace <- function(x){
 #' @family functions to get informations from a workspace, multiprocessing or sa_item
 #'
 #' @examples\donttest{
-#' sa_x13 <- x13_def(ipi_c_eu[, "FR"], spec = "RSA5c")
+#' sa_x13 <- x13(ipi_c_eu[, "FR"], spec = "RSA5c")
 #'
 #' wk <- new_workspace()
 #' mp <- new_multiprocessing(wk, "sa1")
 #' add_sa_item(wk, "sa1", sa_x13, "X13")
 #' sa_item <- get_object(mp, 1)
-#' 
+#'
 #'   # Extracting from a SA:
 #' get_ts(sa_x13) # Returns the ts object ipi_c_eu[, "FR"]
-#' 
+#'
 #'   # Extracting from a sa_item:
 #' get_ts(sa_item) # Returns the ts object ipi_c_eu[, "FR"]
 #'
@@ -281,9 +281,9 @@ get_ts.SA <- function(x){
 #'
 #' @seealso \code{\link{get_model}}
 #'
-#' @examples 
+#' @examples
 #' \donttest{
-#' spec_x13 <- x13_spec_def(spec = "RSA5c", easter.enabled = FALSE)
+#' spec_x13 <- x13_spec(spec = "RSA5c", easter.enabled = FALSE)
 #' sa_x13 <- x13(ipi_c_eu[, "FR"], spec = spec_x13)
 #'
 #' wk <- new_workspace()
@@ -326,7 +326,7 @@ compute <- function(workspace, i) {
 #' Get the seasonally adjusted model from a workspace
 #'
 #' Generics functions to get seasonally adjusted model(s) from \code{workspace},
-#' \code{multiprocessing} or \code{sa_item} object.
+#' \code{multiprocessing} or \code{sa_item} object. \code{get_model} returns a \code{"SA"} objects while  \code{get_jmodel} returns the Java objects of the models.
 #'
 #' @param x the object to get the seasonnaly adjusted model.
 #' @param workspace the workspace object where models are stored. If \code{x} is a \code{workspace} object this parameter is not used.
@@ -336,19 +336,19 @@ compute <- function(workspace, i) {
 #'
 #' @return \code{get_model()} returns a seasonnaly adjust object (class \code{c("SA", "X13")} or \code{c("SA", "TRAMO_SEATS"}) or list of seasonnaly adjust objects:
 #' \itemize{
-#'  \item if \code{x} is a \code{sa_item} object, \code{get_model(x)} returns a \code{"SA"} object;
+#'  \item if \code{x} is a \code{sa_item} object, \code{get_model(x)} returns a \code{"SA"} object (or a \code{\link{jSA}} object with \code{get_jmodel(x)});
 #'  \item if \code{x} is a \code{multiprocessing} object, \code{get_ts(x)} returns list of length the number
-#'  of sa_items, each element containing a \code{"SA"} object;
+#'  of sa_items, each element containing a \code{"SA"} object (or a \code{\link{jSA}} object with \code{get_jmodel(x)});
 #'  \item if \code{x} is a \code{workspace} object, \code{get_ts(x)} returns list of length the number of multiprocessing,
-#'  each element containing a list of a \code{"SA"} object.
+#'  each element containing a list of a \code{"SA"} object (or a \code{\link{jSA}} object with \code{get_jmodel(x)}).
 #'}
 #' @family functions to get informations from a workspace, multiprocessing or sa_item
 #' @seealso \code{\link{compute}}
 #'
 #' @examples\donttest{
-#' spec_x13 <- x13_spec_def(spec = "RSA5c", easter.enabled = FALSE)
+#' spec_x13 <- x13_spec(spec = "RSA5c", easter.enabled = FALSE)
 #' sa_x13 <- x13(ipi_c_eu[, "FR"], spec = spec_x13)
-#' spec_ts <- tramoseats_spec_def(spec = "RSA5")
+#' spec_ts <- tramoseats_spec(spec = "RSA5")
 #' sa_ts <- tramoseats(ipi_c_eu[, "FR"], spec = spec_ts)
 #'
 #' wk <- new_workspace()
@@ -360,7 +360,7 @@ compute <- function(workspace, i) {
 #' sa_item1 <- get_object(mp, 1)
 #'
 #' get_model(sa_item1, wk) # Extract the model of the sa_item1: its the object sa_x13
-#' 
+#'
 #' # To get all the models of the multiprocessing mp:
 #' get_model(mp, wk)
 #'
@@ -380,7 +380,7 @@ get_model.workspace <- function(x, workspace,
                                 progress_bar = TRUE){
   multiprocessings <- get_all_objects(x)
   nb_mp <- length(multiprocessings)
-  
+
   result <- lapply(1:nb_mp, function(i){
     if (progress_bar)
       cat(sprintf("Multiprocessing %i on %i:\n", i, nb_mp))
@@ -390,7 +390,7 @@ get_model.workspace <- function(x, workspace,
   })
   names(result) <- names(multiprocessings)
   result
-  
+
 }
 #' @export
 get_model.multiprocessing <- function(x, workspace,
@@ -398,10 +398,10 @@ get_model.multiprocessing <- function(x, workspace,
                                       progress_bar = TRUE){
   all_sa_objects <- get_all_objects(x)
   nb_sa_objs <- length(all_sa_objects)
-  
+
   if (progress_bar)
     pb <- txtProgressBar(min = 0, max = nb_sa_objs, style = 3)
-  
+
   result <- lapply(1:nb_sa_objs, function(i){
     res <- get_model(all_sa_objects[[i]],
               workspace = workspace, userdefined = userdefined)
@@ -418,23 +418,26 @@ get_model.multiprocessing <- function(x, workspace,
 get_model.sa_item <- function(x, workspace,
                               userdefined = NULL,
                               progress_bar = TRUE){
-  jspec <- get_jspec(x)
-  jresult <- sa_results(x)
+  jsa_result <- get_jmodel.sa_item(x, workspace)
+  if(is.null(jsa_result))
+    return(NULL)
+  jspec <- jsa_result[["spec"]]
+  jresult <- jsa_result[["result"]]@internal
   y_ts <- get_ts(x)
-  
-  context_dictionnary <- .jcall(workspace,
+
+  context_dictionary <- .jcall(workspace,
                                 "Lec/tstoolkit/algorithm/ProcessingContext;",
                                 "getContext")
-  
+
   result <- tryCatch({
     sa_jd2r(jrslt = jresult, spec = jspec, userdefined = userdefined,
-            context_dictionnary = context_dictionnary,
+            context_dictionary = context_dictionary,
             extra_info = TRUE, freq = frequency(y_ts))
   },error = function(e){
     warning("Error while importing a model: NULL object will be returned")
     NULL
   })
-  
+
   result
 }
 

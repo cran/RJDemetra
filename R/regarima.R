@@ -1,23 +1,24 @@
 #Define the S4 java object
 setClass(
-  Class = "JD2_RegArima_java",
-  contains = "JD2_ProcResults"
+  Class = "RegArima_java",
+  contains = "ProcResults"
 )
 setClass(
-  Class = "JD2_TRAMO_java",
-  contains = "JD2_ProcResults"
+  Class = "TRAMO_java",
+  contains = "ProcResults"
 )
 #' RegARIMA model, pre-adjustment in X13 and TRAMO-SEATS
 #' @description
-#' \code{regarima/regarima_def_x13/regarima_def_tramoseats} decomposes the time series in a linear deterministic component and in a stochastic component. The deterministic part of the series can contain outliers, calendar effects and regression effects. The stochastic part is defined by a seasonal multiplicative ARIMA model, as discussed by BOX, G.E.P., and JENKINS, G.M. (1970).
+#' \code{regarima/regarima_x13/regarima_tramoseats} decomposes the time series in a linear deterministic component and in a stochastic component. The deterministic part of the series can contain outliers, calendar effects and regression effects. The stochastic part is defined by a seasonal multiplicative ARIMA model, as discussed by BOX, G.E.P., and JENKINS, G.M. (1970).
+#' \code{jregarima/jregarima_x13/jregarima_tramoseats} does the same computation but returns the Java objects without formatting the output
 #'
 #' @param series a univariate time series
 #' @param spec model specification. For the function:
 #' \itemize{
 #' \item \code{regarima}, object of class \code{c("regarima_spec","X13") or c("regarima_spec","TRAMO_SEATS")}).
-#' See functions \code{\link{regarima_spec_x13}, \link{regarima_spec_def_x13}, \link{regarima_spec_tramoseats}}, and \code{\link{regarima_spec_def_tramoseats}}.
-#' \item \code{regarima_def_x13}, predefined X13 'JDemetra+' model specification (see \emph{Details}). The default is "RG5c".
-#' \item \code{regarima_def_tramoseats}, predefined TRAMO-SEATS 'JDemetra+' model specification (see \emph{Details}). The default is "TRfull".
+#' See functions \code{\link{regarima_spec_x13}, \link{regarima_spec_def_x13} and \link{regarima_spec_tramoseats}}.
+#' \item \code{regarima_x13}, predefined X13 'JDemetra+' model specification (see \emph{Details}). The default is "RG5c".
+#' \item \code{regarima_tramoseats}, predefined TRAMO-SEATS 'JDemetra+' model specification (see \emph{Details}). The default is "TRfull".
 #'}
 #'
 #' @details
@@ -73,7 +74,7 @@ setClass(
 #'
 #' \strong{X13:}
 #' \tabular{rrrrrrr}{
-#' \strong{Identifier} |\tab \strong{Log/level detection} |\tab \strong{Outliers detection} |\tab \strong{Calender effects} |\tab \strong{ARIMA}\cr
+#' \strong{Identifier} |\tab \strong{Log/level detection} |\tab \strong{Outliers detection} |\tab \strong{Calendar effects} |\tab \strong{ARIMA}\cr
 #' RG0 |\tab \emph{NA} |\tab \emph{NA} |\tab \emph{NA} |\tab Airline(+mean)\cr
 #' RG1 |\tab automatic |\tab AO/LS/TC  |\tab \emph{NA} |\tab Airline(+mean)\cr
 #' RG2c |\tab automatic |\tab AO/LS/TC |\tab 2 td vars + Easter |\tab Airline(+mean)\cr
@@ -84,7 +85,7 @@ setClass(
 #'
 #' \strong{TRAMO-SEATS:}
 #' \tabular{rrrrrrrr}{
-#' \strong{Identifier} |\tab \strong{Log/level detection} |\tab \strong{Outliers detection} |\tab \strong{Calender effects} |\tab \strong{ARIMA}\cr
+#' \strong{Identifier} |\tab \strong{Log/level detection} |\tab \strong{Outliers detection} |\tab \strong{Calendar effects} |\tab \strong{ARIMA}\cr
 #' TR0 |\tab \emph{NA} |\tab \emph{NA} |\tab \emph{NA} |\tab Airline(+mean)\cr
 #' TR1 |\tab automatic |\tab AO/LS/TC |\tab \emph{NA} |\tab Airline(+mean)\cr
 #' TR2 |\tab automatic |\tab AO/LS/TC |\tab 2 td vars + Easter |\tab Airline(+mean)\cr
@@ -95,7 +96,10 @@ setClass(
 #' }
 #'
 #' @return
-#' \code{regarima/regarima_def_x13/regarima_def_tramoseats} return an object of class \code{"regarima"} and sub-class \code{"X13"} or \code{"TRAMO_SEATS"}. \code{regarima_def_x13} returns an object of class \code{c("regarima","X13")} and \code{regarima_def_tramoseats} an object of class \code{c("regarima","TRAMO_SEATS")}.
+#'
+#' \code{jregarima/jregarima_x13/jregarima_tramoseats} return a \code{\link{jSA}} object. It contains the Java objects of the result of the preadjustment method without any formatting. Therefore the computation is faster than with \code{regarima/regarima_x13/regarima_tramoseats}. The results can the seasonal adjustment can be extract by \code{\link{get_indicators}}.
+#'
+#' \code{regarima/regarima_x13/regarima_tramoseats} return an object of class \code{"regarima"} and sub-class \code{"X13"} or \code{"TRAMO_SEATS"}. \code{regarima_x13} returns an object of class \code{c("regarima","X13")} and \code{regarima_tramoseats} an object of class \code{c("regarima","TRAMO_SEATS")}.
 #' For the function \code{regarima}, the sub-class of the object depends on the used method that is defined by the class of the \code{spec} object.
 #'
 #' An object of class \code{"regarima"} is a list containing the following components:
@@ -131,13 +135,13 @@ setClass(
 #' @examples\donttest{
 #'  # X13 method
 #' myseries <- ipi_c_eu[, "FR"]
-#' myreg <- regarima_def_x13(myseries, spec ="RG5c")
+#' myreg <- regarima_x13(myseries, spec ="RG5c")
 #' summary(myreg)
 #' plot(myreg)
-#' 
+#'
 #' myspec1 <- regarima_spec_x13(myreg, tradingdays.option = "WorkingDays")
 #' myreg1 <- regarima(myseries, myspec1)
-#' 
+#'
 #' myspec2 <- regarima_spec_x13(myreg, usrdef.outliersEnabled = TRUE,
 #'              usrdef.outliersType = c("LS", "AO"),
 #'              usrdef.outliersDate = c("2008-10-01", "2002-01-01"),
@@ -145,7 +149,7 @@ setClass(
 #'              transform.function = "None")
 #' myreg2 <- regarima(myseries, myspec2)
 #' myreg2
-#' 
+#'
 #' myspec3 <- regarima_spec_x13(myreg, automdl.enabled = FALSE,
 #'              arima.p = 1, arima.q = 1,
 #'              arima.bp = 0, arima.bq = 1,
@@ -156,21 +160,18 @@ setClass(
 #' myreg3 <- regarima(myseries, myspec3)
 #' summary(myreg3)
 #' plot(myreg3)
-#' 
+#'
 #'  # TRAMO-SEATS method
-#' myspec <- regarima_spec_def_tramoseats("TRfull")
+#' myspec <- regarima_spec_tramoseats("TRfull")
 #' myreg <- regarima(myseries, myspec)
-#' # This is equivalent to:
-#' myreg1 <- regarima_def_tramoseats(myseries, spec = "TRfull")
 #' myreg
-#' myreg1
-#' 
+#'
 #' myspec2 <- regarima_spec_tramoseats(myspec, tradingdays.mauto = "Unused",
 #'              tradingdays.option = "WorkingDays",
 #'              easter.type = "Standard",
 #'              automdl.enabled = FALSE, arima.mu = TRUE)
 #' myreg2 <- regarima(myseries, myspec2)
-#' 
+#'
 #' var1 <- ts(rnorm(length(myseries))*10, start = start(myseries), frequency = 12)
 #' var2 <- ts(rnorm(length(myseries))*100, start = start(myseries), frequency = 12)
 #' var <- ts.union(var1, var2)
@@ -183,6 +184,7 @@ setClass(
 #' @export
 # Generic function to create a "regarima" S3 class object from a user-defined specification (for X13 or TRAMO-SEATS method)
 regarima <- function(series, spec = NA){
+
   if (!inherits(spec, "regarima_spec")) {
     stop("use only with \"regarima_spec\" object", call. = FALSE)
   }else{
@@ -192,21 +194,8 @@ regarima <- function(series, spec = NA){
 # Method: "X13"
 #' @export
 regarima.X13 <- function(series, spec = NA){
-  if (!is.ts(series))
-    stop("series must be a time series")
-  if (!inherits(spec, "regarima_spec") | !inherits(spec, "X13"))
-    stop("use only with c(\"regarima_spec\",\"X13\") class object")
-
-  # create the java objects
-  jrspec <- .jcall("jdr/spec/x13/RegArimaSpec", "Ljdr/spec/x13/RegArimaSpec;", "of", "RG1")
-  # introduce modifications from the spec and create the java dictionary with the user-defined variables
-  jdictionary <- specX13_r2jd(spec,jrspec)
-  jspec <- .jcall(jrspec, "Lec/tstoolkit/modelling/arima/x13/RegArimaSpecification;", "getCore")
-  jrslt <- .jcall("ec/tstoolkit/jdr/regarima/Processor",
-                  "Lec/tstoolkit/jdr/regarima/Processor$Results;",
-                  "x12",
-                  ts_r2jd(series), jspec, jdictionary)
-  jrobct <- new(Class = "JD2_RegArima_java", internal = jrslt)
+  jsa_obj <- jregarima.X13(series, spec)
+  jrobct <- jsa_obj[["result"]]
 
   if (is.null(jrobct@internal)) {
     return(NaN)
@@ -219,23 +208,8 @@ regarima.X13 <- function(series, spec = NA){
 # Method: "TRAMO_SEATS"
 #' @export
 regarima.TRAMO_SEATS <- function(series, spec = NA){
-  if (!is.ts(series))
-    stop("series must be a time series")
-  if (!inherits(spec, "regarima_spec") | !inherits(spec, "TRAMO_SEATS"))
-    stop("use only with c(\"regarima_spec\",\"TRAMO_SEATS\") class object")
-
-  # create the java objects
-  jrspec <- .jcall("jdr/spec/tramoseats/TramoSpec", "Ljdr/spec/tramoseats/TramoSpec;", "of", "TR1")
-  # introduce modifications from the spec and create the java dictionary with the user-defined variables
-  jdictionary <- specTS_r2jd(spec,jrspec)
-  jspec <- .jcall(jrspec, "Lec/tstoolkit/modelling/arima/tramo/TramoSpecification;",
-                  "getCore")
-  jrslt <- .jcall("ec/tstoolkit/jdr/regarima/Processor",
-                  "Lec/tstoolkit/jdr/regarima/Processor$Results;",
-                  "tramo",
-                  ts_r2jd(series),
-                  jspec, jdictionary)
-  jrobct <- new(Class = "JD2_TRAMO_java", internal = jrslt)
+  jsa_obj <- jregarima.TRAMO_SEATS(series, spec)
+  jrobct <- jsa_obj[["result"]]
 
   if (is.null(jrobct@internal)) {
     return(NaN)
@@ -249,22 +223,10 @@ regarima.TRAMO_SEATS <- function(series, spec = NA){
 #' @rdname regarima
 #' @name regarima
 #' @export
-regarima_def_tramoseats <- function(series, spec = c("TRfull", "TR0", "TR1", "TR2", "TR3", "TR4", "TR5")){
-  if (!is.ts(series)) {
-    stop("series must be a time series")
-  }
-  spec <- match.arg(spec)
-
-  # create the java objects
-  jrspec <- .jcall("jdr/spec/tramoseats/TramoSpec", "Ljdr/spec/tramoseats/TramoSpec;", "of", spec)
-  jspec <- .jcall(jrspec, "Lec/tstoolkit/modelling/arima/tramo/TramoSpecification;", "getCore")
-  jdictionary <- .jnull("jdr/spec/ts/Utility$Dictionary")
-  jrslt <- .jcall("ec/tstoolkit/jdr/regarima/Processor",
-                  "Lec/tstoolkit/jdr/regarima/Processor$Results;",
-                  "tramo",
-                  ts_r2jd(series),
-                  jspec, jdictionary)
-  jrobct <- new(Class = "JD2_TRAMO_java", internal = jrslt)
+regarima_tramoseats <- function(series, spec = c("TRfull", "TR0", "TR1", "TR2", "TR3", "TR4", "TR5")){
+  jsa_obj <- jregarima_tramoseats(series, spec)
+  jrobct <- jsa_obj[["result"]]
+  jrspec <- jsa_obj[["spec"]]
 
   if (is.null(jrobct@internal)) {
     return(NaN)
@@ -278,22 +240,10 @@ regarima_def_tramoseats <- function(series, spec = c("TRfull", "TR0", "TR1", "TR
 #' @rdname regarima
 #' @name regarima
 #' @export
-regarima_def_x13 <- function(series, spec = c("RG5c", "RG0", "RG1", "RG2c", "RG3", "RG4c")){
-  if (!is.ts(series)) {
-    stop("series must be a time series")
-  }
-  spec <- match.arg(spec)
-
-  # create the java objects
-  jrspec <- .jcall("jdr/spec/x13/RegArimaSpec", "Ljdr/spec/x13/RegArimaSpec;", "of", spec)
-  jspec <- .jcall(jrspec, "Lec/tstoolkit/modelling/arima/x13/RegArimaSpecification;", "getCore")
-  jdictionary <- .jnew("jdr/spec/ts/Utility$Dictionary")
-  jrslt <- .jcall("ec/tstoolkit/jdr/regarima/Processor",
-                  "Lec/tstoolkit/jdr/regarima/Processor$Results;",
-                  "x12",
-                  ts_r2jd(series), jspec, jdictionary)
-
-  jrobct <- new(Class = "JD2_RegArima_java", internal = jrslt)
+regarima_x13 <- function(series, spec = c("RG5c", "RG0", "RG1", "RG2c", "RG3", "RG4c")){
+  jsa_obj <- jregarima_x13(series, spec)
+  jrobct <- jsa_obj[["result"]]
+  jrspec <- jsa_obj[["spec"]]
 
   if (is.null(jrobct@internal)) {
     return(NaN)
@@ -303,15 +253,16 @@ regarima_def_x13 <- function(series, spec = c("RG5c", "RG0", "RG1", "RG2c", "RG3
   }
 }
 
-regarima_defX13 <- function(jrobj, spec, context_dictionnary = NULL,
+regarima_defX13 <- function(jrobj, spec, context_dictionary = NULL,
                             extra_info = FALSE){
   horizon <- -2
   # extract model specification from the java object
-  rspec <- specX13_jd2r(spec = spec, context_dictionnary = context_dictionnary,
+  rspec <- specX13_jd2r(spec = spec, context_dictionary = context_dictionary,
                         extra_info = extra_info)
-  
+
   estimate <- with(rspec,
-                   data.frame(span = estimate.span, tolerance = estimate.tol,
+                   data.frame(preliminary.check = preliminary.check,
+                              span = estimate.span, tolerance = estimate.tol,
                               row.names = "", stringsAsFactors = FALSE)
   )
   transform <- with(rspec,
@@ -382,16 +333,17 @@ regarima_defX13 <- function(jrobj, spec, context_dictionnary = NULL,
   return(z)
 }
 
-regarima_defTS <- function(jrobj, spec, context_dictionnary = NULL,
+regarima_defTS <- function(jrobj, spec, context_dictionary = NULL,
                            extra_info = FALSE){
   # extract model specification from the java object
 
   horizon <- -2
-  rspec <- specTS_jd2r(spec = spec, context_dictionnary = context_dictionnary,
+  rspec <- specTS_jd2r(spec = spec, context_dictionary = context_dictionary,
                         extra_info = extra_info)
 
   estimate <- with(rspec,
-                   data.frame(span = estimate.span, tolerance = estimate.tol,
+                   data.frame(preliminary.check = preliminary.check,
+                              span = estimate.span, tolerance = estimate.tol,
                          exact_ml = estimate.eml, urfinal = estimate.urfinal,
                          row.names = "", stringsAsFactors = FALSE)
   )

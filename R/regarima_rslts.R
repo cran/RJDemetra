@@ -5,7 +5,7 @@ regarima_rslts <- function(jrobj, fcsth){
   arma_names <- paste0("arima.",c("p","d","q","bp","bd","bq"))
   arma <- sapply(arma_names,
                 function(diag) {
-                res <- result(jrobj, diag)})
+                result(jrobj, diag)})
   names(arma) <- gsub("arima.","",arma_names)
 
   arima.est <- result(jrobj,"arima.parameters")
@@ -60,9 +60,9 @@ regarima_rslts <- function(jrobj, fcsth){
   colnames(loglik) <- ""
 
   # Model specification after estimation & components
-  model <- if(inherits(jrobj,"JD2_RegArima_java")){
+  model <- if(inherits(jrobj,"RegArima_java")){
     "RegARIMA - X13"
-  }else if (inherits(jrobj,"JD2_TRAMO_java")){
+  }else if (inherits(jrobj,"TRAMO_java")){
     "RegARIMA - TRAMO/SEATS"
   }else{
     ""
@@ -122,12 +122,16 @@ regarima_rslts <- function(jrobj, fcsth){
   residuals.stat<-list(st.error=st.error, tests=tests)
 
   # Forecast
-  fcst <- result(jrobj,paste("model.fcasts(",fcsth,")", sep=""))
-  fcsterr <- result(jrobj,paste("model.efcasts(",fcsth,")", sep=""))
+  if(fcsth == 0){
+    forecast <- NULL
+  }else{
+    fcst <- result(jrobj,paste("model.fcasts(",fcsth,")", sep=""))
+    fcsterr <- result(jrobj,paste("model.efcasts(",fcsth,")", sep=""))
 
-  forecast <- ts.union(fcst,fcsterr)
+    forecast <- ts.union(fcst,fcsterr)
+  }
 
-  z<- list( arma=arma,
+  z <- list(arma=arma,
             arima.coefficients = arima.coefficients,
             regression.coefficients = regression.coefficients,
             loglik=loglik,

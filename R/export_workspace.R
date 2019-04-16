@@ -16,7 +16,7 @@
 #' # Create and export a empty 'JDemetra+' workspace
 #' wk <- new_workspace()
 #' mp <- new_multiprocessing(wk, "sa1")
-#' 
+#'
 #'
 #' @name new_workspace
 #' @rdname new_workspace
@@ -78,8 +78,8 @@ save_workspace <- function(workspace, file) {
   full_file_name <- normalizePath(file, winslash = "/", mustWork = FALSE)
   folder_wk_name <- sub(".xml$","", full_file_name)
   workspace_name <- basename(folder_wk_name)
-  
-  
+
+
   result <- .jcall(workspace, "Z", "save", full_file_name)
   # To change the name of the workspace
   wk_txt <- readLines(full_file_name)
@@ -97,16 +97,16 @@ save_workspace <- function(workspace, file) {
 #' @param workspace the workspace to add the seasonnaly adjust model.
 #' @param multiprocessing the name or index of the multiprocessing to add the seasonnaly adjust model.
 #' @param sa_obj the seasonnaly adjust object to export.
-#' @param name The name of the seasonnaly adjust model in the multiprocessing. 
+#' @param name The name of the seasonnaly adjust model in the multiprocessing.
 #' By default the name of the \code{sa_obj} is used.
 #'
 #' @seealso \code{\link{load_workspace}}, \code{\link{save_workspace}}
 #'
 #' @examples\donttest{
 #' dir <- tempdir()
-#' spec_x13 <- x13_spec_def(spec = "RSA5c", easter.enabled = FALSE)
+#' spec_x13 <- x13_spec(spec = "RSA5c", easter.enabled = FALSE)
 #' sa_x13 <- x13(ipi_c_eu[, "FR"], spec = spec_x13)
-#' spec_ts <- tramoseats_spec_def(spec = "RSA5")
+#' spec_ts <- tramoseats_spec(spec = "RSA5")
 #' sa_ts <- tramoseats(ipi_c_eu[, "FR"], spec = spec_ts)
 #'
 #' wk <- new_workspace()
@@ -135,8 +135,8 @@ add_sa_item <- function(workspace, multiprocessing, sa_obj, name){
 
   if (missing(name))
     name <- deparse(substitute(sa_obj))
-  
-  sa_obj <- complete_dictionnary(workspace, sa_obj)
+
+  sa_obj <- complete_dictionary(workspace, sa_obj)
   jspec <- get_jspec(sa_obj)
   y <- sa_obj$final$series[, "y"]
 
@@ -184,14 +184,14 @@ get_jspec.sa_item <- function(x, ...){
   spec
 }
 
-complete_dictionnary <- function(workspace, sa_obj){
+complete_dictionary <- function(workspace, sa_obj){
   userdef <- sa_obj$regarima$specification$regression$userdef
   ud_var <- userdef$variables
   if (!userdef$specification["variables"] || is.na(ud_var$series))
     return(sa_obj)
 
-  context_dictionnary <- .jcall(workspace,"Lec/tstoolkit/algorithm/ProcessingContext;", "getContext")
-  ts_variable_managers <- context_dictionnary$getTsVariableManagers()
+  context_dictionary <- .jcall(workspace,"Lec/tstoolkit/algorithm/ProcessingContext;", "getContext")
+  ts_variable_managers <- context_dictionary$getTsVariableManagers()
   ts_variables <- .jnew("ec/tstoolkit/timeseries/regression/TsVariables")
   jd_r_variables <- ts_variable_managers$get("r")
   if (is.null(jd_r_variables)) {
