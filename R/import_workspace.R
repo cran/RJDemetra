@@ -55,7 +55,7 @@ load_workspace <- function(file){
 #' @return An object of class \code{multiprocessing} or \code{sa_item} (for \code{get_object()}) or a list
 #' of objects of class \code{multiprocessing} or \code{sa_item} (for \code{get_all_objects()}).
 #'
-#' @family functions to get informations from a workspace, multiprocessing or sa_item
+#' @seealso Other functions to get informations from a workspace, multiprocessing or sa_item: \code{\link{count}}, \code{\link{get_model}}, \code{\link{get_name}}, \code{\link{get_ts}}.
 #'
 #' @examples\donttest{
 #'
@@ -123,7 +123,7 @@ get_all_objects.workspace <- function(x){
 #'
 #' @return A \code{character}.
 #'
-#' @family functions to get informations from a workspace, multiprocessing or sa_item
+#' @seealso Other functions to get informations from a workspace, multiprocessing or sa_item: \code{\link{count}}, \code{\link{get_model}}, \code{\link{get_ts}}.
 #'
 #' @examples \donttest{
 #' spec_x13 <- x13_spec(spec = "RSA5c", easter.enabled = FALSE)
@@ -180,7 +180,7 @@ get_name.sa_item <- function(x){
 #'
 #' @param x the \code{workspace} or the code{multiprocessing}.
 #'
-#' @family functions to get informations from a workspace, multiprocessing or sa_item
+#' @seealso Other functions to get informations from a workspace, multiprocessing or sa_item: \code{\link{get_model}}, \code{\link{get_name}}, \code{\link{get_ts}}.
 #'
 #' @examples
 #' wk <- new_workspace()
@@ -217,7 +217,7 @@ count.workspace <- function(x){
 #'  \item if \code{x} is a \code{workspace} object, \code{get_ts(x)} returns list of length the number of multiprocessing,
 #'  each element containing a list of \code{ts} object.
 #'}
-#' @family functions to get informations from a workspace, multiprocessing or sa_item
+#' @seealso Other functions to get informations from a workspace, multiprocessing or sa_item: \code{\link{count}}, \code{\link{get_model}}, \code{\link{get_name}}.
 #'
 #' @examples\donttest{
 #' sa_x13 <- x13(ipi_c_eu[, "FR"], spec = "RSA5c")
@@ -342,7 +342,7 @@ compute <- function(workspace, i) {
 #'  \item if \code{x} is a \code{workspace} object, \code{get_ts(x)} returns list of length the number of multiprocessing,
 #'  each element containing a list of a \code{"SA"} object (or a \code{\link{jSA}} object with \code{get_jmodel(x)}).
 #'}
-#' @family functions to get informations from a workspace, multiprocessing or sa_item
+#' @seealso Other functions to get informations from a workspace, multiprocessing or sa_item: \code{\link{count}}, \code{\link{get_name}}, \code{\link{get_ts}}.
 #' @seealso \code{\link{compute}}
 #'
 #' @examples\donttest{
@@ -381,7 +381,7 @@ get_model.workspace <- function(x, workspace,
   multiprocessings <- get_all_objects(x)
   nb_mp <- length(multiprocessings)
 
-  result <- lapply(1:nb_mp, function(i){
+  result <- lapply(seq_len(nb_mp), function(i){
     if (progress_bar)
       cat(sprintf("Multiprocessing %i on %i:\n", i, nb_mp))
     get_model(multiprocessings[[i]],
@@ -402,7 +402,7 @@ get_model.multiprocessing <- function(x, workspace,
   if (progress_bar)
     pb <- txtProgressBar(min = 0, max = nb_sa_objs, style = 3)
 
-  result <- lapply(1:nb_sa_objs, function(i){
+  result <- lapply(seq_len(nb_sa_objs), function(i){
     res <- get_model(all_sa_objects[[i]],
               workspace = workspace, userdefined = userdefined)
     if (progress_bar)
