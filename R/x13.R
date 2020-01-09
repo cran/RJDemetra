@@ -11,7 +11,7 @@ setClass(
 #' \code{x13} returns a preformatted result while \code{jx13} returns the Java objects of the seasonal adjustment.
 #'
 #' @param series a univariate time series
-#' @param spec model specification X13.  It can be a \code{character} of predefined X13 'JDemetra+' model specification (see \emph{Details}), or an object of class \code{c("SA_spec","X13")}. The default is \code{"RSA5c"}.
+#' @param spec model specification X13.  It can be a \code{character} of predefined X13 'JDemetra+' model specification (see \emph{Details}), or a specification created by \code{\link{x13_spec}}. The default is \code{"RSA5c"}.
 #' @param userdefined vector with characters for additional output variables (see \code{\link{user_defined_variables}}).
 #'
 #' @details
@@ -29,7 +29,8 @@ setClass(
 #' RSA2c |\tab automatic |\tab AO/LS/TC |\tab 2 td vars + Easter |\tab Airline(+mean)\cr
 #' RSA3 |\tab automatic |\tab AO/LS/TC |\tab \emph{NA} |\tab automatic\cr
 #' RSA4c |\tab automatic |\tab AO/LS/TC |\tab 2 td vars + Easter |\tab automatic\cr
-#' RSA5c |\tab automatic |\tab AO/LS/TC |\tab 7 td vars + Easter |\tab automatic
+#' RSA5c |\tab automatic |\tab AO/LS/TC |\tab 7 td vars + Easter |\tab automatic\cr
+#' X11 |\tab \emph{NA} |\tab \emph{NA} |\tab \emph{NA} |\tab NA
 #' }
 #'
 #' @return
@@ -104,7 +105,7 @@ setClass(
 #' plot(mysa2$decomposition)
 #' }
 #' @export
-x13 <- function(series, spec = c("RSA5c", "RSA0", "RSA1", "RSA2c", "RSA3", "RSA4c"),
+x13 <- function(series, spec = c("RSA5c", "RSA0", "RSA1", "RSA2c", "RSA3", "RSA4c", "X11"),
                        userdefined = NULL){
   if (!is.ts(series)) {
     stop("series must be a time series")
@@ -116,8 +117,13 @@ x13.SA_spec <- function(series, spec, userdefined = NULL){
   # jsa_obj <- jx13.SA_spec(series, spec)
   # jrslt <- jsa_obj[["result"]]@internal
   # jrspec <- jsa_obj[["spec"]]
-  jrspec <- .jcall("jdr/spec/x13/X13Spec", "Ljdr/spec/x13/X13Spec;", "of", "RSA0")
-  jdictionary <- specX13_r2jd(spec,jrspec)
+  if (is.null(s_estimate(spec))) {
+    # For X-11 specification
+    jrspec <- .jcall("jdr/spec/x13/X13Spec", "Ljdr/spec/x13/X13Spec;", "of", "X11")
+  } else {
+    jrspec <- .jcall("jdr/spec/x13/X13Spec", "Ljdr/spec/x13/X13Spec;", "of", "RSA0")
+  }
+  jdictionary <- spec_regarima_X13_r2jd(spec, jrspec)
   seasma <- specX11_r2jd(spec,jrspec, freq = frequency(series))
   jspec <- .jcall(jrspec, "Lec/satoolkit/x13/X13Specification;", "getCore")
   jrslt <- .jcall("ec/tstoolkit/jdr/sa/Processor", "Lec/tstoolkit/jdr/sa/X13Results;", "x13", ts_r2jd(series), jspec, jdictionary)
@@ -152,7 +158,7 @@ x13.SA_spec <- function(series, spec, userdefined = NULL){
   }
 }
 #' @export
-x13.character <- function(series, spec = c("RSA5c", "RSA0", "RSA1", "RSA2c", "RSA3", "RSA4c"),
+x13.character <- function(series, spec = c("RSA5c", "RSA0", "RSA1", "RSA2c", "RSA3", "RSA4c", "X11"),
                     userdefined = NULL){
   jsa_obj <- jx13.character(series, spec)
   jrslt <- jsa_obj[["result"]]@internal
@@ -175,16 +181,16 @@ x13JavaResults <- function(jrslt, spec, userdefined = NULL,
   }
 
   #Error with preliminary check
-  if(is.null(jrslt$getDiagnostics()) & !jrslt$getResults()$getProcessingInformation()$isEmpty()){
+  if (is.null(jrslt$getDiagnostics()) & !jrslt$getResults()$getProcessingInformation()$isEmpty()){
     proc_info <- jrslt$getResults()$getProcessingInformation()
     error_msg <- proc_info$get(0L)$getErrorMessages(proc_info)
-    if(!error_msg$isEmpty())
+    if (!error_msg$isEmpty())
       stop(error_msg$toString())
   }
 
   reg <- regarima_defX13(jrobj = jrobct_arima, spec = spec,
                          context_dictionary = context_dictionary,
-                         extra_info = extra_info)
+                         extra_info = extra_info, freq = freq)
   deco <- decomp_defX13(jrobj = jrobct, spec = spec, freq = freq)
   fin <- final(jrobj = jrobct)
   diagn <- diagnostics(jrobj = jrobct)

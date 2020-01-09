@@ -4,53 +4,89 @@
 \alias{tramoseats_spec}
 \title{TRAMO-SEATS model specification, SA/TRAMO-SEATS}
 \usage{
-tramoseats_spec(spec = c("RSAfull", "RSA0", "RSA1", "RSA2", "RSA3",
-  "RSA4", "RSA5"), preliminary.check = NA,
-  estimate.from = NA_character_, estimate.to = NA_character_,
-  estimate.first = NA_integer_, estimate.last = NA_integer_,
-  estimate.exclFirst = NA_integer_, estimate.exclLast = NA_integer_,
-  estimate.tol = NA_integer_, estimate.eml = NA,
-  estimate.urfinal = NA_integer_, transform.function = c(NA, "Auto",
-  "None", "Log"), transform.fct = NA_integer_,
-  usrdef.outliersEnabled = NA, usrdef.outliersType = NA,
-  usrdef.outliersDate = NA, usrdef.outliersCoef = NA,
-  usrdef.varEnabled = NA, usrdef.var = NA, usrdef.varType = NA,
-  usrdef.varCoef = NA, tradingdays.mauto = c(NA, "Unused", "FTest",
-  "WaldTest"), tradingdays.pftd = NA_integer_,
-  tradingdays.option = c(NA, "TradingDays", "WorkingDays", "UserDefined",
-  "None"), tradingdays.leapyear = NA,
-  tradingdays.stocktd = NA_integer_, tradingdays.test = c(NA,
-  "Separate_T", "Joint_F", "None"), easter.type = c(NA, "Unused",
-  "Standard", "IncludeEaster", "IncludeEasterMonday"),
-  easter.julian = NA, easter.duration = NA_integer_,
-  easter.test = NA, outlier.enabled = NA,
-  outlier.from = NA_character_, outlier.to = NA_character_,
-  outlier.first = NA_integer_, outlier.last = NA_integer_,
-  outlier.exclFirst = NA_integer_, outlier.exclLast = NA_integer_,
-  outlier.ao = NA, outlier.tc = NA, outlier.ls = NA,
-  outlier.so = NA, outlier.usedefcv = NA, outlier.cv = NA_integer_,
-  outlier.eml = NA, outlier.tcrate = NA_integer_,
-  automdl.enabled = NA, automdl.acceptdefault = NA,
-  automdl.cancel = NA_integer_, automdl.ub1 = NA_integer_,
-  automdl.ub2 = NA_integer_, automdl.armalimit = NA_integer_,
-  automdl.reducecv = NA_integer_, automdl.ljungboxlimit = NA_integer_,
-  automdl.compare = NA, arima.mu = NA, arima.p = NA_integer_,
-  arima.d = NA_integer_, arima.q = NA_integer_,
-  arima.bp = NA_integer_, arima.bd = NA_integer_,
-  arima.bq = NA_integer_, arima.coefEnabled = NA, arima.coef = NA,
-  arima.coefType = NA, fcst.horizon = NA_integer_,
+tramoseats_spec(
+  spec = c("RSAfull", "RSA0", "RSA1", "RSA2", "RSA3", "RSA4", "RSA5"),
+  preliminary.check = NA,
+  estimate.from = NA_character_,
+  estimate.to = NA_character_,
+  estimate.first = NA_integer_,
+  estimate.last = NA_integer_,
+  estimate.exclFirst = NA_integer_,
+  estimate.exclLast = NA_integer_,
+  estimate.tol = NA_integer_,
+  estimate.eml = NA,
+  estimate.urfinal = NA_integer_,
+  transform.function = c(NA, "Auto", "None", "Log"),
+  transform.fct = NA_integer_,
+  usrdef.outliersEnabled = NA,
+  usrdef.outliersType = NA,
+  usrdef.outliersDate = NA,
+  usrdef.outliersCoef = NA,
+  usrdef.varEnabled = NA,
+  usrdef.var = NA,
+  usrdef.varType = NA,
+  usrdef.varCoef = NA,
+  tradingdays.mauto = c(NA, "Unused", "FTest", "WaldTest"),
+  tradingdays.pftd = NA_integer_,
+  tradingdays.option = c(NA, "TradingDays", "WorkingDays", "UserDefined", "None"),
+  tradingdays.leapyear = NA,
+  tradingdays.stocktd = NA_integer_,
+  tradingdays.test = c(NA, "Separate_T", "Joint_F", "None"),
+  easter.type = c(NA, "Unused", "Standard", "IncludeEaster", "IncludeEasterMonday"),
+  easter.julian = NA,
+  easter.duration = NA_integer_,
+  easter.test = NA,
+  outlier.enabled = NA,
+  outlier.from = NA_character_,
+  outlier.to = NA_character_,
+  outlier.first = NA_integer_,
+  outlier.last = NA_integer_,
+  outlier.exclFirst = NA_integer_,
+  outlier.exclLast = NA_integer_,
+  outlier.ao = NA,
+  outlier.tc = NA,
+  outlier.ls = NA,
+  outlier.so = NA,
+  outlier.usedefcv = NA,
+  outlier.cv = NA_integer_,
+  outlier.eml = NA,
+  outlier.tcrate = NA_integer_,
+  automdl.enabled = NA,
+  automdl.acceptdefault = NA,
+  automdl.cancel = NA_integer_,
+  automdl.ub1 = NA_integer_,
+  automdl.ub2 = NA_integer_,
+  automdl.armalimit = NA_integer_,
+  automdl.reducecv = NA_integer_,
+  automdl.ljungboxlimit = NA_integer_,
+  automdl.compare = NA,
+  arima.mu = NA,
+  arima.p = NA_integer_,
+  arima.d = NA_integer_,
+  arima.q = NA_integer_,
+  arima.bp = NA_integer_,
+  arima.bd = NA_integer_,
+  arima.bq = NA_integer_,
+  arima.coefEnabled = NA,
+  arima.coef = NA,
+  arima.coefType = NA,
+  fcst.horizon = NA_integer_,
+  seats.predictionLength = NA_integer_,
   seats.approx = c(NA, "None", "Legacy", "Noisy"),
-  seats.trendBoundary = NA_integer_, seats.seasdBoundary = NA_integer_,
-  seats.seasdBoundary1 = NA_integer_, seats.seasTol = NA_integer_,
-  seats.maBoundary = NA_integer_, seats.method = c(NA, "Burman",
-  "KalmanSmoother", "McElroyMatrix"), object)
+  seats.trendBoundary = NA_integer_,
+  seats.seasdBoundary = NA_integer_,
+  seats.seasdBoundary1 = NA_integer_,
+  seats.seasTol = NA_integer_,
+  seats.maBoundary = NA_integer_,
+  seats.method = c(NA, "Burman", "KalmanSmoother", "McElroyMatrix")
+)
 }
 \arguments{
-\item{spec}{model specification X13.  It can be a \code{character} of predefined TRAMO-SEATS 'JDemetra+' model specification (see \emph{Details}), an object of class \code{c("SA_spec","TRAMO_SEATS")} or an object of class \code{c("SA", "TRAMO_SEATS")}. The default is \code{"RSAfull"}.
+\item{spec}{model specification X13.  It can be a \code{character} of predefined TRAMO-SEATS 'JDemetra+' model specification (see \emph{Details}), an object of class \code{c("SA_spec","TRAMO_SEATS")} or an object of class \code{c("SA", "TRAMO_SEATS")}. The default is \code{"RSAfull"}.}
+
+\item{preliminary.check}{boolean to check the quality of the input series and exclude highly problematic ones: e.g. these with a number of identical observations and/or missing values above pre-specified threshold values.
 
 The time span of the series to be used for the estimation of the RegArima model coefficients (default from 1900-01-01 to 2020-12-31) is controlled by the following six variables: \code{estimate.from, estimate.to, estimate.first, estimate.last, estimate.exclFirst} and \code{estimate.exclLast}; where \code{estimate.from} and \code{estimate.to} have priority over remaining span control variables, \code{estimate.last} and \code{estimate.first} have priority over \code{estimate.exclFirst} and \code{estimate.exclLast}, and \code{estimate.last} has priority over \code{estimate.first}.}
-
-\item{preliminary.check}{boolean to check the quality of the input series and exclude highly problematic ones: e.g. these with a number of identical observations and/or missing values above pre-specified threshold values.}
 
 \item{estimate.from}{character in format "YYYY-MM-DD" indicating the start of the time span (e.g. "1900-01-01"). Can be combined with \code{estimate.to}.}
 
@@ -195,6 +231,8 @@ E.g.: \code{arima.coef = c(-0.8,-0.6,NA)}, \code{arima.coefType = c("Fixed","Fix
 
 \item{fcst.horizon}{numeric, forecasts horizon. Length of the forecasts generated by the RegARIMA model in periods (positive values) or years (negative values). By default the program generates two years forecasts (\code{fcst.horizon} set to \code{-2}).}
 
+\item{seats.predictionLength}{integer, number of forecasts used in the decomposition. Negative values correspond to numbers of years.}
+
 \item{seats.approx}{character, approximation mode. When the ARIMA model estimated by TRAMO does not accept an admissible decomposition, SEATS: \code{"None"} - performs an approximation; \code{"Legacy"} - replaces the model with a decomposable one; \code{"Noisy"} - estimates a new model by adding a white noise to the non-admissible model estimated by TRAMO.}
 
 \item{seats.trendBoundary}{numeric, trend boundary. The boundary from which an AR root is integrated in the trend component. If the modulus of the inverse real root is greater than Trend boundary, the AR root is integrated in the trend component. Below this value the root is integrated in the transitory component.}
@@ -208,8 +246,6 @@ E.g.: \code{arima.coef = c(-0.8,-0.6,NA)}, \code{arima.coefType = c("Fixed","Fix
 \item{seats.maBoundary}{numeric, MA unit root boundary. When the modulus of an estimated MA root falls in the range (xl, 1), it is set to xl.}
 
 \item{seats.method}{character, estimation method of the unobserved components. The choice can be made from: \code{"Burman"} (default, may result in a significant underestimation of the standard deviations of the components as it may become numerically unstable when some roots of the MA polynomial are near 1); \code{"KalmanSmoother"} (it is not disturbed by the (quasi-) unit roots in MA); \code{"McElroyMatrix"} (has the same stability issues as the Burman's algorithm).}
-
-\item{object}{deprecated argument.}
 }
 \value{
 A two-elements list of class \code{c("SA_spec", "TRAMO_SEATS")}: (1) object of class \code{c("regarima_spec", "TRAMO_SEATS")} with the RegARIMA model specification, (2) object of class \code{c("seats_spec", "data.frame")} with the SEATS algorithm specification.

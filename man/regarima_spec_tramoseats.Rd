@@ -4,47 +4,81 @@
 \alias{regarima_spec_tramoseats}
 \title{RegARIMA model specification, pre-adjustment in TRAMO-SEATS}
 \usage{
-regarima_spec_tramoseats(spec = c("TRfull", "TR0", "TR1", "TR2", "TR3",
-  "TR4", "TR5"), preliminary.check = NA, estimate.from = NA_character_,
-  estimate.to = NA_character_, estimate.first = NA_integer_,
-  estimate.last = NA_integer_, estimate.exclFirst = NA_integer_,
-  estimate.exclLast = NA_integer_, estimate.tol = NA_integer_,
-  estimate.eml = NA, estimate.urfinal = NA_integer_,
+regarima_spec_tramoseats(
+  spec = c("TRfull", "TR0", "TR1", "TR2", "TR3", "TR4", "TR5"),
+  preliminary.check = NA,
+  estimate.from = NA_character_,
+  estimate.to = NA_character_,
+  estimate.first = NA_integer_,
+  estimate.last = NA_integer_,
+  estimate.exclFirst = NA_integer_,
+  estimate.exclLast = NA_integer_,
+  estimate.tol = NA_integer_,
+  estimate.eml = NA,
+  estimate.urfinal = NA_integer_,
   transform.function = c(NA, "Auto", "None", "Log"),
-  transform.fct = NA_integer_, usrdef.outliersEnabled = NA,
-  usrdef.outliersType = NA, usrdef.outliersDate = NA,
-  usrdef.outliersCoef = NA, usrdef.varEnabled = NA, usrdef.var = NA,
-  usrdef.varType = NA, usrdef.varCoef = NA, tradingdays.mauto = c(NA,
-  "Unused", "FTest", "WaldTest"), tradingdays.pftd = NA_integer_,
-  tradingdays.option = c(NA, "TradingDays", "WorkingDays", "UserDefined",
-  "None"), tradingdays.leapyear = NA,
-  tradingdays.stocktd = NA_integer_, tradingdays.test = c(NA,
-  "Separate_T", "Joint_F", "None"), easter.type = c(NA, "Unused",
-  "Standard", "IncludeEaster", "IncludeEasterMonday"),
-  easter.julian = NA, easter.duration = NA_integer_,
-  easter.test = NA, outlier.enabled = NA,
-  outlier.from = NA_character_, outlier.to = NA_character_,
-  outlier.first = NA_integer_, outlier.last = NA_integer_,
-  outlier.exclFirst = NA_integer_, outlier.exclLast = NA_integer_,
-  outlier.ao = NA, outlier.tc = NA, outlier.ls = NA,
-  outlier.so = NA, outlier.usedefcv = NA, outlier.cv = NA_integer_,
-  outlier.eml = NA, outlier.tcrate = NA_integer_,
-  automdl.enabled = NA, automdl.acceptdefault = NA,
-  automdl.cancel = NA_integer_, automdl.ub1 = NA_integer_,
-  automdl.ub2 = NA_integer_, automdl.armalimit = NA_integer_,
-  automdl.reducecv = NA_integer_, automdl.ljungboxlimit = NA_integer_,
-  automdl.compare = NA, arima.mu = NA, arima.p = NA_integer_,
-  arima.d = NA_integer_, arima.q = NA_integer_,
-  arima.bp = NA_integer_, arima.bd = NA_integer_,
-  arima.bq = NA_integer_, arima.coefEnabled = NA, arima.coef = NA,
-  arima.coefType = NA, fcst.horizon = NA_integer_, object)
+  transform.fct = NA_integer_,
+  usrdef.outliersEnabled = NA,
+  usrdef.outliersType = NA,
+  usrdef.outliersDate = NA,
+  usrdef.outliersCoef = NA,
+  usrdef.varEnabled = NA,
+  usrdef.var = NA,
+  usrdef.varType = NA,
+  usrdef.varCoef = NA,
+  tradingdays.mauto = c(NA, "Unused", "FTest", "WaldTest"),
+  tradingdays.pftd = NA_integer_,
+  tradingdays.option = c(NA, "TradingDays", "WorkingDays", "UserDefined", "None"),
+  tradingdays.leapyear = NA,
+  tradingdays.stocktd = NA_integer_,
+  tradingdays.test = c(NA, "Separate_T", "Joint_F", "None"),
+  easter.type = c(NA, "Unused", "Standard", "IncludeEaster", "IncludeEasterMonday"),
+  easter.julian = NA,
+  easter.duration = NA_integer_,
+  easter.test = NA,
+  outlier.enabled = NA,
+  outlier.from = NA_character_,
+  outlier.to = NA_character_,
+  outlier.first = NA_integer_,
+  outlier.last = NA_integer_,
+  outlier.exclFirst = NA_integer_,
+  outlier.exclLast = NA_integer_,
+  outlier.ao = NA,
+  outlier.tc = NA,
+  outlier.ls = NA,
+  outlier.so = NA,
+  outlier.usedefcv = NA,
+  outlier.cv = NA_integer_,
+  outlier.eml = NA,
+  outlier.tcrate = NA_integer_,
+  automdl.enabled = NA,
+  automdl.acceptdefault = NA,
+  automdl.cancel = NA_integer_,
+  automdl.ub1 = NA_integer_,
+  automdl.ub2 = NA_integer_,
+  automdl.armalimit = NA_integer_,
+  automdl.reducecv = NA_integer_,
+  automdl.ljungboxlimit = NA_integer_,
+  automdl.compare = NA,
+  arima.mu = NA,
+  arima.p = NA_integer_,
+  arima.d = NA_integer_,
+  arima.q = NA_integer_,
+  arima.bp = NA_integer_,
+  arima.bd = NA_integer_,
+  arima.bq = NA_integer_,
+  arima.coefEnabled = NA,
+  arima.coef = NA,
+  arima.coefType = NA,
+  fcst.horizon = NA_integer_
+)
 }
 \arguments{
-\item{spec}{model specification.  It can be a \code{character} of predefined 'JDemetra+' model specification (see \emph{Details}), an object of class \code{c("regarima_spec","TRAMO_SEATS")} or an object of class \code{c("regarima", "TRAMO_SEATS")}. The default is \code{"TRfull"}.
+\item{spec}{model specification.  It can be a \code{character} of predefined 'JDemetra+' model specification (see \emph{Details}), an object of class \code{c("regarima_spec","TRAMO_SEATS")} or an object of class \code{c("regarima", "TRAMO_SEATS")}. The default is \code{"TRfull"}.}
+
+\item{preliminary.check}{boolean to check the quality of the input series and exclude highly problematic ones: e.g. these with a number of identical observations and/or missing values above pre-specified threshold values.
 
 The time span of the series to be used for the estimation of the RegArima model coefficients (default from 1900-01-01 to 2020-12-31) is controlled by the following six variables: \code{estimate.from, estimate.to, estimate.first, estimate.last, estimate.exclFirst} and \code{estimate.exclLast}; where \code{estimate.from} and \code{estimate.to} have priority over remaining span control variables, \code{estimate.last} and \code{estimate.first} have priority over \code{estimate.exclFirst} and \code{estimate.exclLast}, and \code{estimate.last} has priority over \code{estimate.first}.}
-
-\item{preliminary.check}{boolean to check the quality of the input series and exclude highly problematic ones: e.g. these with a number of identical observations and/or missing values above pre-specified threshold values.}
 
 \item{estimate.from}{character in format "YYYY-MM-DD" indicating the start of the time span (e.g. "1900-01-01"). Can be combined with \code{estimate.to}.}
 
@@ -188,8 +222,6 @@ Control variables for the user-defined ARMA coefficients. Coefficients can be de
 E.g.: \code{arima.coef = c(-0.8,-0.6,NA)}, \code{arima.coefType = c("Fixed","Fixed","Undefined")}.}
 
 \item{fcst.horizon}{numeric, forecasts horizon. Length of the forecasts generated by the RegARIMA model in periods (positive values) or years (negative values). By default the program generates two years forecasts (\code{fcst.horizon} set to \code{-2}).}
-
-\item{object}{deprecated argument.}
 }
 \value{
 A list of class \code{c("regarima_spec","TRAMO_SEATS")} with the below components. Each component refers to different part of the RegARIMA model specification, mirroring the arguments of the function (for details see arguments description). Each of the lowest-level component (except span, pre-specified outliers, user-defined variables and pre-specified ARMA coefficients) is structured within a data frame with columns denoting different variables of the model specification and rows referring to: first row - base specification, as provided within the argument \code{spec}; second row - user modifications as specified by the remaining arguments of the function (e.g.: \code{arima.d}); and third row - final model specification, values that will be used in the function \code{\link{regarima}}. The final specification (third row) shall include user modifications (row two) unless they were wrongly specified. The pre-specified outliers, user-defined variables and pre-specified ARMA coefficients consist of a list with the \code{Predefined} (base model specification) and \code{Final} values.

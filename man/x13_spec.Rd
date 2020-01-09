@@ -4,53 +4,94 @@
 \alias{x13_spec}
 \title{X-13ARIMA-SEATS model specification, SA/X13}
 \usage{
-x13_spec(spec = c("RSA5c", "RSA0", "RSA1", "RSA2c", "RSA3", "RSA4c",
-  "X11"), preliminary.check = NA, estimate.from = NA_character_,
-  estimate.to = NA_character_, estimate.first = NA_integer_,
-  estimate.last = NA_integer_, estimate.exclFirst = NA_integer_,
-  estimate.exclLast = NA_integer_, estimate.tol = NA_integer_,
+x13_spec(
+  spec = c("RSA5c", "RSA0", "RSA1", "RSA2c", "RSA3", "RSA4c", "X11"),
+  preliminary.check = NA,
+  estimate.from = NA_character_,
+  estimate.to = NA_character_,
+  estimate.first = NA_integer_,
+  estimate.last = NA_integer_,
+  estimate.exclFirst = NA_integer_,
+  estimate.exclLast = NA_integer_,
+  estimate.tol = NA_integer_,
   transform.function = c(NA, "Auto", "None", "Log"),
   transform.adjust = c(NA, "None", "LeapYear", "LengthOfPeriod"),
-  transform.aicdiff = NA_integer_, usrdef.outliersEnabled = NA,
-  usrdef.outliersType = NA, usrdef.outliersDate = NA,
-  usrdef.outliersCoef = NA, usrdef.varEnabled = NA, usrdef.var = NA,
-  usrdef.varType = NA, usrdef.varCoef = NA,
-  tradingdays.option = c(NA, "TradingDays", "WorkingDays", "UserDefined",
-  "None"), tradingdays.autoadjust = NA, tradingdays.leapyear = c(NA,
-  "LeapYear", "LengthOfPeriod", "None"),
-  tradingdays.stocktd = NA_integer_, tradingdays.test = c(NA, "Remove",
-  "Add", "None"), easter.enabled = NA, easter.julian = NA,
-  easter.duration = NA_integer_, easter.test = c(NA, "Add", "Remove",
-  "None"), outlier.enabled = NA, outlier.from = NA_character_,
-  outlier.to = NA_character_, outlier.first = NA_integer_,
-  outlier.last = NA_integer_, outlier.exclFirst = NA_integer_,
-  outlier.exclLast = NA_integer_, outlier.ao = NA, outlier.tc = NA,
-  outlier.ls = NA, outlier.so = NA, outlier.usedefcv = NA,
-  outlier.cv = NA_integer_, outlier.method = c(NA, "AddOne", "AddAll"),
-  outlier.tcrate = NA_integer_, automdl.enabled = NA,
-  automdl.acceptdefault = NA, automdl.cancel = NA_integer_,
-  automdl.ub1 = NA_integer_, automdl.ub2 = NA_integer_,
-  automdl.mixed = NA, automdl.balanced = NA,
-  automdl.armalimit = NA_integer_, automdl.reducecv = NA_integer_,
-  automdl.ljungboxlimit = NA_integer_, automdl.ubfinal = NA_integer_,
-  arima.mu = NA, arima.p = NA_integer_, arima.d = NA_integer_,
-  arima.q = NA_integer_, arima.bp = NA_integer_,
-  arima.bd = NA_integer_, arima.bq = NA_integer_,
-  arima.coefEnabled = NA, arima.coef = NA, arima.coefType = NA,
-  fcst.horizon = NA_integer_, x11.mode = c(NA, "Undefined", "Additive",
-  "Multiplicative", "LogAdditive", "PseudoAdditive"),
-  x11.seasonalComp = NA, x11.lsigma = NA_integer_,
-  x11.usigma = NA_integer_, x11.trendAuto = NA,
-  x11.trendma = NA_integer_, x11.seasonalma = NA_character_,
-  x11.fcasts = NA_integer_, x11.bcasts = NA_integer_,
-  x11.excludeFcasts = NA, object)
+  transform.aicdiff = NA_integer_,
+  usrdef.outliersEnabled = NA,
+  usrdef.outliersType = NA,
+  usrdef.outliersDate = NA,
+  usrdef.outliersCoef = NA,
+  usrdef.varEnabled = NA,
+  usrdef.var = NA,
+  usrdef.varType = NA,
+  usrdef.varCoef = NA,
+  tradingdays.option = c(NA, "TradingDays", "WorkingDays", "UserDefined", "None"),
+  tradingdays.autoadjust = NA,
+  tradingdays.leapyear = c(NA, "LeapYear", "LengthOfPeriod", "None"),
+  tradingdays.stocktd = NA_integer_,
+  tradingdays.test = c(NA, "Remove", "Add", "None"),
+  easter.enabled = NA,
+  easter.julian = NA,
+  easter.duration = NA_integer_,
+  easter.test = c(NA, "Add", "Remove", "None"),
+  outlier.enabled = NA,
+  outlier.from = NA_character_,
+  outlier.to = NA_character_,
+  outlier.first = NA_integer_,
+  outlier.last = NA_integer_,
+  outlier.exclFirst = NA_integer_,
+  outlier.exclLast = NA_integer_,
+  outlier.ao = NA,
+  outlier.tc = NA,
+  outlier.ls = NA,
+  outlier.so = NA,
+  outlier.usedefcv = NA,
+  outlier.cv = NA_integer_,
+  outlier.method = c(NA, "AddOne", "AddAll"),
+  outlier.tcrate = NA_integer_,
+  automdl.enabled = NA,
+  automdl.acceptdefault = NA,
+  automdl.cancel = NA_integer_,
+  automdl.ub1 = NA_integer_,
+  automdl.ub2 = NA_integer_,
+  automdl.mixed = NA,
+  automdl.balanced = NA,
+  automdl.armalimit = NA_integer_,
+  automdl.reducecv = NA_integer_,
+  automdl.ljungboxlimit = NA_integer_,
+  automdl.ubfinal = NA_integer_,
+  arima.mu = NA,
+  arima.p = NA_integer_,
+  arima.d = NA_integer_,
+  arima.q = NA_integer_,
+  arima.bp = NA_integer_,
+  arima.bd = NA_integer_,
+  arima.bq = NA_integer_,
+  arima.coefEnabled = NA,
+  arima.coef = NA,
+  arima.coefType = NA,
+  fcst.horizon = NA_integer_,
+  x11.mode = c(NA, "Undefined", "Additive", "Multiplicative", "LogAdditive",
+    "PseudoAdditive"),
+  x11.seasonalComp = NA,
+  x11.lsigma = NA_integer_,
+  x11.usigma = NA_integer_,
+  x11.trendAuto = NA,
+  x11.trendma = NA_integer_,
+  x11.seasonalma = NA_character_,
+  x11.fcasts = NA_integer_,
+  x11.bcasts = NA_integer_,
+  x11.calendarSigma = NA,
+  x11.sigmaVector = NA,
+  x11.excludeFcasts = NA
+)
 }
 \arguments{
-\item{spec}{model specification X13.  It can be a \code{character} of predefined X13 'JDemetra+' model specification (see \emph{Details}), an object of class \code{c("SA_spec","X13")} or an object of class \code{c("SA", "X13")}. The default is \code{"RSA5c"}.
+\item{spec}{model specification X13.  It can be a \code{character} of predefined X13 'JDemetra+' model specification (see \emph{Details}), an object of class \code{c("SA_spec","X13")} or an object of class \code{c("SA", "X13")}. The default is \code{"RSA5c"}.}
 
-The time span of the series to be used for the estimation of the RegArima model coefficients (default from 1900-01-01 to 2020-12-31) is controlled by the following six variables: \code{estimate.from, estimate.to, estimate.first, estimate.last, estimate.exclFirst} and \code{estimate.exclLast}; where \code{estimate.from} and \code{estimate.to} have priority over remaining span control variables, \code{estimate.last} and \code{estimate.first} have priority over \code{estimate.exclFirst} and \code{estimate.exclLast}, and \code{estimate.last} has priority over \code{estimate.first}.}
+\item{preliminary.check}{boolean to check the quality of the input series and exclude highly problematic ones: e.g. these with a number of identical observations and/or missing values above pre-specified threshold values.
 
-\item{preliminary.check}{boolean to check the quality of the input series and exclude highly problematic ones: e.g. these with a number of identical observations and/or missing values above pre-specified threshold values.}
+The time span of the series to be used for the estimation of the RegARIMA model coefficients (default from 1900-01-01 to 2020-12-31) is controlled by the following six variables: \code{estimate.from, estimate.to, estimate.first, estimate.last, estimate.exclFirst} and \code{estimate.exclLast}; where \code{estimate.from} and \code{estimate.to} have priority over remaining span control variables, \code{estimate.last} and \code{estimate.first} have priority over \code{estimate.exclFirst} and \code{estimate.exclLast}, and \code{estimate.last} has priority over \code{estimate.first}.}
 
 \item{estimate.from}{character in format "YYYY-MM-DD" indicating the start of the time span (e.g. "1900-01-01"). Can be combined with \code{estimate.to}.}
 
@@ -211,9 +252,11 @@ E.g.: \code{arima.coef = c(-0.8,-0.6,NA)}, \code{arima.coefType = c("Fixed","Fix
 
 \item{x11.bcasts}{numeric, backcast. Length of the backcasts used in X11. Negative figures are translated in years of backcasts.}
 
-\item{x11.excludeFcasts}{logicals, exclude forecats and backcasts. If \code{TRUE} forecasts and backcasts from the RegARIMA model are not used in the generation of extreme values in the seasonal adjustment routines.}
+\item{x11.calendarSigma}{character to specify if the standard errors used for extreme values detection and adjustment are computed from 5 year spans of irregulars (\code{"None"}, the default); separately for each calendar month/quarter (\code{"All"}); separately for each period only if Cochran’s hypothesis test determines that the irregular component is heteroskedastic by calendar month/quarter (\code{"Signif"}); separately for two complementary sets of calendar months/quarters specified by the x11.sigmaVector parameter (\code{"Select"}, see parameter \code{x11.sigmaVector}).}
 
-\item{object}{deprecated argument.}
+\item{x11.sigmaVector}{vector to specifies one of the two groups of periods for whose standard errors used for extreme values detection and adjustment will be computed. Only used if \code{x11.calendarSigma = "Select"}. Possibe values are: "Group1" and "Group2".}
+
+\item{x11.excludeFcasts}{logicals, exclude forecats and backcasts. If \code{TRUE} forecasts and backcasts from the RegARIMA model are not used in the generation of extreme values in the seasonal adjustment routines.}
 }
 \value{
 A two-elements list of class \code{c("SA_spec", "X13")}: (1) object of class \code{c("regarima_spec", "X13")} with the RegARIMA model specification, (2) object of class \code{c("X11_spec", "data.frame")} with the X11 algorithm specification.
@@ -238,7 +281,8 @@ RSA1 |\tab automatic |\tab AO/LS/TC  |\tab \emph{NA} |\tab Airline(+mean)\cr
 RSA2c |\tab automatic |\tab AO/LS/TC |\tab 2 td vars + Easter |\tab Airline(+mean)\cr
 RSA3 |\tab automatic |\tab AO/LS/TC |\tab \emph{NA} |\tab automatic\cr
 RSA4c |\tab automatic |\tab AO/LS/TC |\tab 2 td vars + Easter |\tab automatic\cr
-RSA5c |\tab automatic |\tab AO/LS/TC |\tab 7 td vars + Easter |\tab automatic
+RSA5c |\tab automatic |\tab AO/LS/TC |\tab 7 td vars + Easter |\tab automatic\cr
+X11 |\tab \emph{NA} |\tab \emph{NA} |\tab \emph{NA} |\tab NA
 }
 }
 \examples{

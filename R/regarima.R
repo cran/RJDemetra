@@ -184,12 +184,7 @@ setClass(
 #' @export
 # Generic function to create a "regarima" S3 class object from a user-defined specification (for X13 or TRAMO-SEATS method)
 regarima <- function(series, spec = NA){
-
-  if (!inherits(spec, "regarima_spec")) {
-    stop("use only with \"regarima_spec\" object", call. = FALSE)
-  }else{
-    UseMethod("regarima", spec)
-  }
+  UseMethod("regarima", spec)
 }
 # Method: "X13"
 #' @export
@@ -254,11 +249,12 @@ regarima_x13 <- function(series, spec = c("RG5c", "RG0", "RG1", "RG2c", "RG3", "
 }
 
 regarima_defX13 <- function(jrobj, spec, context_dictionary = NULL,
-                            extra_info = FALSE){
+                            extra_info = FALSE,
+                            freq = NA){
   horizon <- -2
   # extract model specification from the java object
-  rspec <- specX13_jd2r(spec = spec, context_dictionary = context_dictionary,
-                        extra_info = extra_info)
+  rspec <- spec_regarima_X13_jd2r(spec = spec, context_dictionary = context_dictionary,
+                        extra_info = extra_info, freq = freq)
 
   estimate <- with(rspec,
                    data.frame(preliminary.check = preliminary.check,
@@ -334,12 +330,12 @@ regarima_defX13 <- function(jrobj, spec, context_dictionary = NULL,
 }
 
 regarima_defTS <- function(jrobj, spec, context_dictionary = NULL,
-                           extra_info = FALSE){
+                           extra_info = FALSE, freq = NA){
   # extract model specification from the java object
 
   horizon <- -2
-  rspec <- specTS_jd2r(spec = spec, context_dictionary = context_dictionary,
-                        extra_info = extra_info)
+  rspec <- spec_TRAMO_jd2r(spec = spec, context_dictionary = context_dictionary,
+                        extra_info = extra_info, freq = freq)
 
   estimate <- with(rspec,
                    data.frame(preliminary.check = preliminary.check,
@@ -414,7 +410,7 @@ regarima_defTS <- function(jrobj, spec, context_dictionary = NULL,
 
 regarima_X13 <- function(jrobj, spec){
   # results
-  jd_results <- regarima_rslts(jrobj,as.numeric(s_fcst(spec)))
+  jd_results <- regarima_rslts(jrobj, as.numeric(s_fcst(spec)))
   # import the model specification
   estimate <- s_estimate(spec)
   transform <- s_transform(spec)

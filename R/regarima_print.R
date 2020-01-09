@@ -1,13 +1,23 @@
 # Method: "regarima" for the function summary
 #' @export
 #' @export
-summary.regarima <- function (object, ...){
+summary.regarima <- function(object, ...){
+  if (is.null(object$arma)) {
+    result <- list(arma_orders = NULL, results_spec = NULL,
+                   coefficients = list(arima = NULL,
+                                       regression = NULL,
+                                       fixed_out = NULL,
+                                       fixed_var = NULL),
+                   loglik = NULL, residuals_st_err = NULL)
+    class(result) <- "summary.regarima"
+    return(result)
+  }
 
   arma <- object$arma
   arima_coef <- object$arima.coefficients
   reg_coef <- object$regression.coefficients
   rslt_spec <- object$model$spec_rslt
-  loglik<- object$loglik
+  loglik <- object$loglik
   res_err <- object$residuals.stat$st.error
   usr_spec <- object$specification$regression$userdef$specification
   out <- s_preOut(object)
@@ -40,15 +50,16 @@ summary.regarima <- function (object, ...){
     }
   }
   if (usr_spec[3] & usr_spec[4]){
-    nvar0 <-dim(var)[1]
+    nvar0 <- dim(var)[1]
     var <- cbind(var,c(1:nvar0))
+    var[is.na(var[,2]), 2] <- 0
     var <- var[var[,2]!=0,]
     nvar <- dim(var)[1]
     if (nvar!=0){
       colnames(var) <- c("","Coefficients")
       fvar <- var[2]
       rownames(fvar) <- sprintf("r.%s", rownames(fvar))
-      fvar <- cbind(fout, NA)
+      fvar <- cbind(fvar, NA)
       colnames(fvar)[ncol(fvar)] <- "Pr(>|t|)"
     }
   }
@@ -66,6 +77,10 @@ summary.regarima <- function (object, ...){
 }
 #' @export
 print.summary.regarima <- function (x, digits = max(3L, getOption("digits") - 3L), signif.stars = getOption("show.signif.stars"), ...){
+  if (is.null(x$arma_orders)) {
+    cat("No pre-processing")
+    return(invisible(x))
+  }
 
   cat("y = regression model + arima ",gsub("c","",deparse(as.numeric(x$arma_orders))),sep="")
   cat("\n\n")
@@ -114,7 +129,7 @@ print.summary.regarima <- function (x, digits = max(3L, getOption("digits") - 3L
   cat("Residual standard error:",
       formatC(x$residuals_st_err,digits = digits),
       "on",
-      loglik["np",], "degrees of freedom", sep = " ")
+      loglik["neffectiveobs",] - loglik["np",], "degrees of freedom", sep = " ")
   cat("\n")
   cat("Log likelihood = ", formatC(loglik["logvalue",], digits = digits),
       ", aic = ",formatC(loglik["aic", ], digits = digits),
@@ -127,12 +142,17 @@ print.summary.regarima <- function (x, digits = max(3L, getOption("digits") - 3L
 
 # Method: "regarima" for the function print
 #' @export
-print.regarima=function (x, digits = max(3L, getOption("digits") - 3L), ...){
+print.regarima <- function (x, digits = max(3L, getOption("digits") - 3L), ...){
+  if (is.null(x$arma)) {
+    cat("No pre-processing")
+    return(invisible(x))
+  }
+
 
   arma <- x$arma
   arima_coef <- x$arima.coefficients
   reg_coef <- x$regression.coefficients
-  loglik<- x$loglik
+  loglik <- x$loglik
   res_err <- x$residuals.stat$st.error
   usr_spec <- x$specification$regression$userdef$specification
   out <- s_preOut(x)
@@ -180,9 +200,10 @@ print.regarima=function (x, digits = max(3L, getOption("digits") - 3L), ...){
     }
   }
   if (usr_spec[3] & usr_spec[4]){
-    nvar0 <-dim(var)[1]
+    nvar0 <- dim(var)[1]
     var <- cbind(var,c(1:nvar0))
-    var <- var[var[,2]!=0,]
+    var[is.na(var[,2]), 2] <- 0
+    var <- var[var[,2]!=0, ]
     nvar <- dim(var)[1]
     if (nvar!=0){
       var_dsc <- if (nvar0==1){c("r.userdef")} else {paste("r.userdef",var[,3],sep="_")}
@@ -196,10 +217,13 @@ print.regarima=function (x, digits = max(3L, getOption("digits") - 3L), ...){
     }
   }
   cat("\n\n")
-  cat("Residual standard error:",formatC(res_err,digits = digits),"on",loglik[3],"degrees of freedom", sep = " ")
+  cat("Residual standard error:",formatC(res_err,digits = digits),
+      "on",loglik["neffectiveobs",] - loglik["np",],"degrees of freedom", sep = " ")
   cat("\n")
-  cat("Log likelihood = ",formatC(loglik[1],digits = digits),", aic = ",formatC(loglik[4],digits = digits)," aicc = ",
-      formatC(loglik[5],digits = digits),", bic(corrected for length) = ",formatC(loglik[7],digits = digits), sep = "")
+  cat("Log likelihood = ", formatC(loglik["logvalue",], digits = digits),
+      ", aic = ", formatC(loglik["aic",], digits = digits),
+      " aicc = ", formatC(loglik["aicc",], digits = digits),
+      ", bic(corrected for length) = ",formatC(loglik["bicc", ],digits = digits), sep = "")
   cat("\n\n")
   invisible(x)
 }

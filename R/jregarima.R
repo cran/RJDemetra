@@ -1,23 +1,19 @@
 #' @rdname regarima
 #' @name regarima
+#' @export
 jregarima <- function(series, spec = NA){
-  if (!inherits(spec, "regarima_spec")) {
-    stop("use only with \"regarima_spec\" object", call. = FALSE)
-  }else{
-    UseMethod("jregarima", spec)
-  }
+  UseMethod("jregarima", spec)
 }
 #' @export
 jregarima.X13 <- function(series, spec = NA){
   if (!is.ts(series))
     stop("series must be a time series")
-  if (!inherits(spec, "regarima_spec") | !inherits(spec, "X13"))
-    stop("use only with c(\"regarima_spec\",\"X13\") class object")
+  spec <- regarima_spec_x13(spec)
 
   # create the java objects
   jrspec <- .jcall("jdr/spec/x13/RegArimaSpec", "Ljdr/spec/x13/RegArimaSpec;", "of", "RG1")
   # introduce modifications from the spec and create the java dictionary with the user-defined variables
-  jdictionary <- specX13_r2jd(spec,jrspec)
+  jdictionary <- spec_regarima_X13_r2jd(spec,jrspec)
   jspec <- .jcall(jrspec, "Lec/tstoolkit/modelling/arima/x13/RegArimaSpecification;", "getCore")
   jrslt <- .jcall("ec/tstoolkit/jdr/regarima/Processor",
                   "Lec/tstoolkit/jdr/regarima/Processor$Results;",
@@ -31,13 +27,13 @@ jregarima.X13 <- function(series, spec = NA){
 jregarima.TRAMO_SEATS <- function(series, spec = NA){
   if (!is.ts(series))
     stop("series must be a time series")
-  if (!inherits(spec, "regarima_spec") | !inherits(spec, "TRAMO_SEATS"))
-    stop("use only with c(\"regarima_spec\",\"TRAMO_SEATS\") class object")
+
+  spec <- regarima_spec_tramoseats(spec)
 
   # create the java objects
   jrspec <- .jcall("jdr/spec/tramoseats/TramoSpec", "Ljdr/spec/tramoseats/TramoSpec;", "of", "TR1")
   # introduce modifications from the spec and create the java dictionary with the user-defined variables
-  jdictionary <- specTS_r2jd(spec,jrspec)
+  jdictionary <- spec_TRAMO_r2jd(spec,jrspec)
   jspec <- .jcall(jrspec, "Lec/tstoolkit/modelling/arima/tramo/TramoSpecification;",
                   "getCore")
   jrslt <- .jcall("ec/tstoolkit/jdr/regarima/Processor",
