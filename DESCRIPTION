@@ -1,7 +1,7 @@
 Package: RJDemetra
 Type: Package
 Title: Interface to 'JDemetra+' Seasonal Adjustment Software
-Version: 0.1.7
+Version: 0.1.9
 Authors@R: c(
   person("Alain", "Quartier-la-Tente", role = c("aut", "cre"),
                  email = "alain.quartier@yahoo.fr",
@@ -18,16 +18,16 @@ Description: Interface around 'JDemetra+' (<https://github.com/jdemetra/jdemetra
     TRAMO/SEATS+ and X-12ARIMA/X-13ARIMA-SEATS.
 Depends: R (>= 3.1.1),
 Imports: rJava (>= 0.9-8), graphics, grDevices, methods, stats, utils
-SystemRequirements: Java SE 8 or higher
+SystemRequirements: Java JRE between 8 and 15.
 License: EUPL
 URL: https://github.com/jdemetra/rjdemetra
 LazyData: TRUE
 Suggests: knitr, rmarkdown
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 BugReports: https://github.com/jdemetra/rjdemetra/issues
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2021-06-06 18:25:25 UTC; alainquartierlatente
+Packaged: 2021-11-09 11:55:55 UTC; ZW20HJ
 Author: Alain Quartier-la-Tente [aut, cre]
     (<https://orcid.org/0000-0001-7890-3857>),
   Anna Michalek [aut],
@@ -35,4 +35,4 @@ Author: Alain Quartier-la-Tente [aut, cre]
   Raf Baeyens [aut]
 Maintainer: Alain Quartier-la-Tente <alain.quartier@yahoo.fr>
 Repository: CRAN
-Date/Publication: 2021-06-07 07:00:04 UTC
+Date/Publication: 2021-11-11 15:10:02 UTC
