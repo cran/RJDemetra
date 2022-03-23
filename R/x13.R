@@ -80,7 +80,7 @@ setClass(
 #'
 #' @references
 #' Info on 'JDemetra+', usage and functions:
-#' \url{https://ec.europa.eu/eurostat/cros/content/documentation_en}
+#' \url{https://ec.europa.eu/eurostat/cros/content/documentation_en/}
 #'
 #' BOX G.E.P. and JENKINS G.M. (1970), "Time Series Analysis: Forecasting and Control", Holden-Day, San Francisco.
 #'
@@ -131,7 +131,7 @@ x13.SA_spec <- function(series, spec, userdefined = NULL){
   if (is.null(s_estimate(spec))) {
 
     # For the X11 specification
-    jrspec <- .jcall("jdr/spec/x13/X13Spec", "Ljdr/spec/x13/X13Spec;", "of", "X11")
+    jdspec <- .jcall("jdr/spec/x13/X13Spec", "Ljdr/spec/x13/X13Spec;", "of", "X11")
 
   } else {
     jdspec <- .jcall("jdr/spec/x13/X13Spec", "Ljdr/spec/x13/X13Spec;", "of", "RSA0")
@@ -153,11 +153,16 @@ x13.SA_spec <- function(series, spec, userdefined = NULL){
     return(NaN)
   }else{
     # Error with the preliminary check
-    if(is.null(jrslt$getDiagnostics()) & !jrslt$getResults()$getProcessingInformation()$isEmpty()){
+    res = jrslt$getResults()$getProcessingInformation()
+
+    if(is.null(jrslt$getDiagnostics()) & !.jcall(res,"Z","isEmpty")){
       proc_info <- jrslt$getResults()$getProcessingInformation()
-      error_msg <- proc_info$get(0L)$getErrorMessages(proc_info)
-      if(!error_msg$isEmpty())
+      error_msg <- .jcall(proc_info, "Ljava/lang/Object;", "get", 0L)$getErrorMessages(proc_info)
+      warning_msg <- .jcall(proc_info, "Ljava/lang/Object;", "get", 0L)$getWarningMessages(proc_info)
+      if(!.jcall(error_msg,"Z","isEmpty"))
         stop(error_msg$toString())
+      if(!.jcall(warning_msg,"Z","isEmpty"))
+        warning(warning_msg$toString())
     }
     reg <- regarima_X13(jrobj = jrobct_arima, spec = spec$regarima)
     deco <- decomp_X13(jrobj = jrobct, spec = spec$x11, seasma = seasma)
@@ -195,11 +200,15 @@ x13JavaResults <- function(jrslt, spec, userdefined = NULL,
   }
 
   # Error during the preliminary check
-  if (is.null(jrslt$getDiagnostics()) & !jrslt$getResults()$getProcessingInformation()$isEmpty()){
+  res = jrslt$getResults()$getProcessingInformation()
+  if(is.null(jrslt$getDiagnostics()) & !.jcall(res,"Z","isEmpty")){
     proc_info <- jrslt$getResults()$getProcessingInformation()
-    error_msg <- proc_info$get(0L)$getErrorMessages(proc_info)
-    if (!error_msg$isEmpty())
+    error_msg <- .jcall(proc_info, "Ljava/lang/Object;", "get", 0L)$getErrorMessages(proc_info)
+    warning_msg <- .jcall(proc_info, "Ljava/lang/Object;", "get", 0L)$getWarningMessages(proc_info)
+    if(!.jcall(error_msg,"Z","isEmpty"))
       stop(error_msg$toString())
+    if(!.jcall(warning_msg,"Z","isEmpty"))
+      warning(warning_msg$toString())
   }
 
   reg <- regarima_defX13(jrobj = jrobct_arima, spec = spec,

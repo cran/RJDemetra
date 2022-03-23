@@ -1,10 +1,22 @@
+# RJDemetra 0.2.0
+
+- Bug with x11 introduced in RJDemetra 0.1.9 (issue #99).
+
+- Java 17 compatibility.
+
+- Change of javanamespace to avoid name clashes with jd+ 3.0.
+
+- `easter.enabled` not working since RJDemetra 0.1.9.
+
+- default parameters of the span specification `d0` and `d1` as NA for clarity (issue #102).
+
 # RJDemetra 0.1.9
 
 - easter specification was not working.
 
-- some typo in the documentation
+- some typo in the documentation.
 
-- SystemRequirement update: only Java JRE is needed
+- SystemRequirement update: only Java JRE is needed.
 
 # RJDemetra 0.1.8
 
