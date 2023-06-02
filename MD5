@@ -1,6 +1,6 @@
-652fb53a0030a9c02b3744ed34bf90a4 *DESCRIPTION
+12d2a0008a529248911e81fc6da2d3ea *DESCRIPTION
 6a9eeff4c40afe20dfda2ad6b078a3fa *NAMESPACE
-81c0e46c6bab7addc252bb88044b8f18 *NEWS.md
+d8b38741f358bef4d227ae454f4639f5 *NEWS.md
 c222eaabcfd53e0eee3ebadd5c1de8fe *R/decomposition.R
 d41d8cd98f00b204e9800998ecf8427e *R/deprecated.R
 e7dce19b470f5706bb3714fc1eac17d1 *R/diagnostics.R
@@ -19,7 +19,7 @@ abcd9f5445998c486b5299780bc6ed0b *R/jregarima.R
 1a7f7960e1698030a06d97ea14117262 *R/regarima_generic.R
 cfd7a74faaed2ff161a986bd0676b78b *R/regarima_plot.R
 b0f525a6d710cdd408c1e43e7279fd1d *R/regarima_print.R
-b38b77df0d92ac10765330993112ad10 *R/regarima_rslts.R
+e2f24c24082a492763fdff3e5cc937fd *R/regarima_rslts.R
 30e39d9e8f5ade17d62734fb9652794e *R/regarima_specTS.R
 5aabe9a9ec1d55f36208e301bef8f661 *R/regarima_specX13.R
 8acdc260a5051b94dc07ae9e421bad55 *R/sa_plot.R
