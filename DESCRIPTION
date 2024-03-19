@@ -1,7 +1,7 @@
 Package: RJDemetra
 Type: Package
 Title: Interface to 'JDemetra+' Seasonal Adjustment Software
-Version: 0.2.5
+Version: 0.2.6
 Authors@R: c(
   person("Alain", "Quartier-la-Tente", role = c("aut", "cre"),
                  email = "alain.quartier@yahoo.fr",
@@ -20,15 +20,15 @@ Depends: R (>= 3.1.1),
 Imports: rJava (>= 0.9-8), graphics, grDevices, methods, stats, utils
 SystemRequirements: Java (>= 8)
 License: EUPL
-URL: https://jdemetra.github.io/rjdemetra/,
-        https://github.com/jdemetra/rjdemetra
 LazyData: TRUE
 Suggests: knitr, rmarkdown
+URL: https://jdemetra.github.io/rjdemetra/,
+        https://github.com/jdemetra/rjdemetra
 BugReports: https://github.com/jdemetra/rjdemetra/issues
 Encoding: UTF-8
 RoxygenNote: 7.3.1
 NeedsCompilation: no
-Packaged: 2024-02-03 22:41:04 UTC; alainquartierlatente
+Packaged: 2024-03-19 21:44:29 UTC; alainquartierlatente
 Author: Alain Quartier-la-Tente [aut, cre]
     (<https://orcid.org/0000-0001-7890-3857>),
   Anna Michalek [aut],
@@ -36,4 +36,4 @@ Author: Alain Quartier-la-Tente [aut, cre]
   Raf Baeyens [aut]
 Maintainer: Alain Quartier-la-Tente <alain.quartier@yahoo.fr>
 Repository: CRAN
-Date/Publication: 2024-02-03 23:20:02 UTC
+Date/Publication: 2024-03-19 22:10:04 UTC
